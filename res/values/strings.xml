@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="fabdesc">Floating button used to add tasks.</string>
+    <string name="priorityImg">Priority image</string>
+</resources>
