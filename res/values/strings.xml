@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">TODO</string>
     <string name="fabdesc">Floating button used to add tasks.</string>
     <string name="priorityImg">Priority image</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="menu_item_search">Search</string>
+    <string name="menu_item_Sort">Sort</string>
+    <string name="menu_item_sort_1">Sort by name</string>
+    <string name="menu_item_sort_2">Sort by date</string>
+    <string name="menu_item_hide">Hide completed</string>
+    <string name="menu_item_delete">Delete all</string>
 </resources>

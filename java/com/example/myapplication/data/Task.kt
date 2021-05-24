@@ -9,8 +9,8 @@ import java.text.DateFormat
 @Entity(tableName = "tasks")
 @Parcelize
 data class Task(
-    val checked: Boolean = false,
     val task: String,
+    val checked: Boolean = false,
     val important: Boolean = false,
     val created: Long = System.currentTimeMillis(),
     @PrimaryKey(autoGenerate = true) val id: Int = 0
