@@ -23,8 +23,8 @@ abstract class TaskDatabase: RoomDatabase() {
             applicationScope.launch {
                 dao.insert(Task("Develop Mvvm app"))
                 dao.insert(Task("Eat lunch",true))
-                dao.insert(Task("Go bronze",false,true))
-                dao.insert(Task("Sleep"))
+                dao.insert(Task("Go bronze",false,important = true))
+                dao.insert(Task("Code",important = true))
             }
         }
     }

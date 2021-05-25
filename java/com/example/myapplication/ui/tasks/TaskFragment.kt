@@ -1,12 +1,14 @@
 package com.example.myapplication.ui.tasks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
+import com.example.myapplication.data.SortOrder
 import com.example.myapplication.data.TaskViewModel
 import com.example.myapplication.databinding.FragmentTaskBinding
 import com.example.myapplication.utils.OnQueryTextChanged
@@ -49,13 +51,16 @@ class TaskFragment : Fragment(R.layout.fragment_task) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.menu_sort_by_name->{
+                viewModel.sortOrder.value=SortOrder.BY_NAME
                 true
             }
             R.id.menu_sort_by_date->{
+                viewModel.sortOrder.value=SortOrder.BY_DATE
                 true
             }
             R.id.menu_hide_completed->{
                 item.isChecked = !item.isChecked
+                viewModel.hideCompleted.value = item.isChecked
                 true
             }
             else->super.onOptionsItemSelected(item)
