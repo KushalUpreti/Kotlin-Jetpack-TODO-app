@@ -3,6 +3,8 @@ package com.example.myapplication.data
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.ui.ADD_TASK_RESULT_OK
+import com.example.myapplication.ui.EDIT_TASK_RESULT_OK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -67,17 +69,31 @@ class TaskViewModel @Inject constructor(
     }
 
     fun onAddNewTaskClick()= viewModelScope.launch {
-        taskEventChannel.send(TaskEvent.NavigateToAddTask)
+        taskEventChannel.send(TaskEvent.NavigateToAddTaskScreen)
     }
 
     fun onTaskSelected(task: Task) = viewModelScope.launch {
         taskEventChannel.send(TaskEvent.NavigateToEditTaskScreen(task))
     }
 
+    fun onAddEdotResult(result:Int){
+        when(result){
+            ADD_TASK_RESULT_OK->showTaskSavedMessage("Task added")
+            EDIT_TASK_RESULT_OK->showTaskSavedMessage("Task updated")
+        }
+    }
+
+    private fun showTaskSavedMessage(message:String){
+        viewModelScope.launch {
+
+        }
+    }
+
     sealed class TaskEvent{
         data class ShowUndoDeleteTaskMessage(val task: Task):TaskEvent()
-        object NavigateToAddTask:TaskEvent()
+        object NavigateToAddTaskScreen:TaskEvent()
         data class NavigateToEditTaskScreen(val task: Task):TaskEvent()
+        data class ShowTaskSavedConfirmationMessage(val msg:String):TaskEvent()
     }
 }
 

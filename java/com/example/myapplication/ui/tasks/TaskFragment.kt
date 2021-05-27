@@ -7,8 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +22,7 @@ import com.example.myapplication.databinding.FragmentTaskBinding
 import com.example.myapplication.utils.OnQueryTextChanged
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_task.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -58,6 +61,10 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
                     viewModel.onTaskSwiped(task)
                 }
             }).attachToRecyclerView(recyclerView)
+
+            fabAddTasks.setOnClickListener {
+                viewModel.onAddNewTaskClick()
+            }
         }
         viewModel.tasks.observe(viewLifecycleOwner, {
             taskAdapter.submitList(it)
@@ -72,9 +79,21 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
                                 viewModel.onRestoreDeletedTask(event.task)
                             }.show()
                     }
+                    is TaskViewModel.TaskEvent.NavigateToAddTaskScreen ->{
+                        val action = TaskFragmentDirections.actionTasksFragmentToAddEditFragment2(null,"Add task")
+                        findNavController().navigate(action)
+                    }
+                    is TaskViewModel.TaskEvent.NavigateToEditTaskScreen ->{
+                        val action = TaskFragmentDirections.actionTasksFragmentToAddEditFragment2(event.task,"Edit task")
+                        findNavController().navigate(action)
+                    }
                 }
             }
+        }
 
+        setFragmentResultListener("add_edit_request"){_,bundle->
+            val result = bundle.getInt("add_edit_request")
+            viewModel.onAddEdotResult(result)
         }
         setHasOptionsMenu(true)
     }
