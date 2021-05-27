@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickListener {
     private val viewModel: TaskViewModel by viewModels()
+    private lateinit var searchView: SearchView
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,6 +88,10 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
                         val action = TaskFragmentDirections.actionTasksFragmentToAddEditFragment2(event.task,"Edit task")
                         findNavController().navigate(action)
                     }
+                    is TaskViewModel.TaskEvent.NavigateToDeleteAllDialog->{
+                        val action = TaskFragmentDirections.actionGlobalDeleteAllDialogFragment()
+                        findNavController().navigate(action)
+                    }
                 }
             }
         }
@@ -101,7 +106,14 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_fragment_tasks, menu)
         val searchItem = menu.findItem(R.id.menu_search)
-        val searchView = searchItem.actionView as SearchView
+        searchView = searchItem.actionView as SearchView
+
+        val pendingQuery = viewModel.searchQuery.value
+
+        if(pendingQuery != null && pendingQuery.isNotEmpty()){
+            searchView.onActionViewExpanded()
+            searchView.setQuery(pendingQuery,false)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             menu.findItem(R.id.menu_hide_completed).isChecked =
@@ -128,6 +140,10 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
                 viewModel.updateHideCompleted(item.isChecked)
                 true
             }
+            R.id.menu_delete_all->{
+                viewModel.onDeleteAllCompleted()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -138,5 +154,10 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
 
     override fun onCheckBoxClick(task: Task, isChecked: Boolean) {
         viewModel.onTaskChecked(task, isChecked)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        searchView.setOnQueryTextListener(null)
     }
 }

@@ -16,6 +16,7 @@ import com.example.myapplication.utils.exhaustive
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_edit.*
+import kotlinx.android.synthetic.main.fragment_task.*
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -33,7 +34,9 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit) {
             dateCreated.isVisible = viewModel.task != null
             dateCreated.text = "Created: ${viewModel.task?.createdDateFormatted}"
 
-
+            editButton.setOnClickListener {
+                viewModel.onSaveClick()
+            }
         }
 
         editTextTaskName.addTextChangedListener {
