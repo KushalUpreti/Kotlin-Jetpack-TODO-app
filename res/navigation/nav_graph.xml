@@ -5,13 +5,23 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/tasksFragment">
     <fragment
-        android:id="@+id/editFragment"
-        android:name="com.example.myapplication.EditFragment"
-        android:label="fragment_edit"
-        tools:layout="@layout/fragment_edit" />
-    <fragment
         android:id="@+id/tasksFragment"
         android:name="com.example.myapplication.ui.tasks.TaskFragment"
         android:label="fragment_tasks2"
-        tools:layout="@layout/fragment_task" />
+        tools:layout="@layout/fragment_task" >
+        <action
+            android:id="@+id/action_tasksFragment_to_addEditFragment2"
+            app:destination="@id/addEditFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditFragment2"
+        android:name="com.example.myapplication.ui.addedittask.AddEditFragment"
+        android:label="fragment_add_edit"
+        tools:layout="@layout/fragment_add_edit" >
+        <argument
+            android:name="task"
+            app:argType="com.example.myapplication.data.Task"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>
