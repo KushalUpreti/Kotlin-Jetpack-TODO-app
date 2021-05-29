@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.addedittask
+package com.example.myapplication.view
 
 import android.os.Bundle
 import android.view.View
@@ -13,10 +13,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentAddEditBinding
 import com.example.myapplication.utils.exhaustive
+import com.example.myapplication.viewmodel.AddEditViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_edit.*
-import kotlinx.android.synthetic.main.fragment_task.*
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -48,12 +48,12 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit) {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.addEditTaskEvent.collect(){event->
-                when(event){
-                    is AddEditViewModel.AddEditTaskEvent.ShowInvalidInputMessage->{
-                        Snackbar.make(requireView(),event.message,Snackbar.LENGTH_LONG).show()
+            viewModel.addEditTaskEvent.collect() { event ->
+                when (event) {
+                    is AddEditViewModel.AddEditTaskEvent.ShowInvalidInputMessage -> {
+                        Snackbar.make(requireView(), event.message, Snackbar.LENGTH_LONG).show()
                     }
-                    is AddEditViewModel.AddEditTaskEvent.NavigateBackWithResult->{
+                    is AddEditViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
                         binding.editTextTaskName.clearFocus()
                         setFragmentResult(
                             "add_edit_request",

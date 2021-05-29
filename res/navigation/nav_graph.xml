@@ -6,7 +6,7 @@
     app:startDestination="@id/tasksFragment">
     <fragment
         android:id="@+id/tasksFragment"
-        android:name="com.example.myapplication.ui.tasks.TaskFragment"
+        android:name="com.example.myapplication.view.TaskFragment"
         android:label="Tasks"
         tools:layout="@layout/fragment_task">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/addEditFragment2"
-        android:name="com.example.myapplication.ui.addedittask.AddEditFragment"
+        android:name="com.example.myapplication.view.AddEditFragment"
         android:label="{title}"
         tools:layout="@layout/fragment_add_edit" >
         <argument
@@ -29,6 +29,6 @@
     </fragment>
     <dialog
         android:id="@+id/deleteAllDialogFragment"
-        android:name="com.example.myapplication.ui.fragments.DeleteAllDialogFragment"
+        android:name="com.example.myapplication.view.DeleteAllDialogFragment"
         android:label="DeleteAllDialogFragment" /><action android:id="@+id/action_global_deleteAllDialogFragment" app:destination="@id/deleteAllDialogFragment"/>
 </navigation>

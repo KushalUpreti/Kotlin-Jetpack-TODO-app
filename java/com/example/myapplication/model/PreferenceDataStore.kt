@@ -1,9 +1,10 @@
-package com.example.myapplication.data
+package com.example.myapplication.model
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.myapplication.data.SortOrder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -41,7 +42,7 @@ class PreferenceDataStore @Inject constructor(@ApplicationContext val context: C
         }
     }
 
-    suspend fun updateHideCompleted(hideCompleted: Boolean){
+    suspend fun updateHideCompleted(hideCompleted: Boolean) {
         context.dataStore.edit {
             it[PreferenceKeys.HIDE_COMPLETED] = hideCompleted
         }

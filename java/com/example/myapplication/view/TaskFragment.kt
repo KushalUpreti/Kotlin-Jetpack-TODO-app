@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.tasks
+package com.example.myapplication.view
 
 import android.os.Bundle
 import android.view.Menu
@@ -16,13 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.SortOrder
-import com.example.myapplication.data.Task
 import com.example.myapplication.data.TaskViewModel
 import com.example.myapplication.databinding.FragmentTaskBinding
+import com.example.myapplication.data.Task
+import com.example.myapplication.model.TaskAdapter
 import com.example.myapplication.utils.OnQueryTextChanged
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_task.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -80,15 +80,21 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
                                 viewModel.onRestoreDeletedTask(event.task)
                             }.show()
                     }
-                    is TaskViewModel.TaskEvent.NavigateToAddTaskScreen ->{
-                        val action = TaskFragmentDirections.actionTasksFragmentToAddEditFragment2(null,"Add task")
+                    is TaskViewModel.TaskEvent.NavigateToAddTaskScreen -> {
+                        val action = TaskFragmentDirections.actionTasksFragmentToAddEditFragment2(
+                            null,
+                            "Add task"
+                        )
                         findNavController().navigate(action)
                     }
-                    is TaskViewModel.TaskEvent.NavigateToEditTaskScreen ->{
-                        val action = TaskFragmentDirections.actionTasksFragmentToAddEditFragment2(event.task,"Edit task")
+                    is TaskViewModel.TaskEvent.NavigateToEditTaskScreen -> {
+                        val action = TaskFragmentDirections.actionTasksFragmentToAddEditFragment2(
+                            event.task,
+                            "Edit task"
+                        )
                         findNavController().navigate(action)
                     }
-                    is TaskViewModel.TaskEvent.NavigateToDeleteAllDialog->{
+                    is TaskViewModel.TaskEvent.NavigateToDeleteAllDialog -> {
                         val action = TaskFragmentDirections.actionGlobalDeleteAllDialogFragment()
                         findNavController().navigate(action)
                     }
@@ -96,7 +102,7 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
             }
         }
 
-        setFragmentResultListener("add_edit_request"){_,bundle->
+        setFragmentResultListener("add_edit_request") { _, bundle ->
             val result = bundle.getInt("add_edit_request")
             viewModel.onAddEdotResult(result)
         }
@@ -110,9 +116,9 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
 
         val pendingQuery = viewModel.searchQuery.value
 
-        if(pendingQuery != null && pendingQuery.isNotEmpty()){
+        if (pendingQuery != null && pendingQuery.isNotEmpty()) {
             searchView.onActionViewExpanded()
-            searchView.setQuery(pendingQuery,false)
+            searchView.setQuery(pendingQuery, false)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -140,7 +146,7 @@ class TaskFragment : Fragment(R.layout.fragment_task), TaskAdapter.OnItemClickLi
                 viewModel.updateHideCompleted(item.isChecked)
                 true
             }
-            R.id.menu_delete_all->{
+            R.id.menu_delete_all -> {
                 viewModel.onDeleteAllCompleted()
                 true
             }

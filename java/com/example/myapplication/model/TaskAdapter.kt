@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.tasks
+package com.example.myapplication.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,18 +17,18 @@ class TaskAdapter(private val onItemClickListener: OnItemClickListener) :
         init {
 
             binding.apply {
-                root.setOnClickListener{
+                root.setOnClickListener {
                     val position = bindingAdapterPosition
-                    if(position != RecyclerView.NO_POSITION){
+                    if (position != RecyclerView.NO_POSITION) {
                         val task = getItem(position)
                         onItemClickListener.onItemClick(task)
                     }
                 }
-                checkBoxCompleted.setOnClickListener{
+                checkBoxCompleted.setOnClickListener {
                     val position = bindingAdapterPosition
-                    if(position != RecyclerView.NO_POSITION){
+                    if (position != RecyclerView.NO_POSITION) {
                         val task = getItem(position)
-                        onItemClickListener.onCheckBoxClick(task,checkBoxCompleted.isChecked)
+                        onItemClickListener.onCheckBoxClick(task, checkBoxCompleted.isChecked)
                     }
                 }
             }
@@ -56,7 +56,7 @@ class TaskAdapter(private val onItemClickListener: OnItemClickListener) :
 
     interface OnItemClickListener {
         fun onItemClick(task: Task)
-        fun onCheckBoxClick(task: Task,isChecked:Boolean)
+        fun onCheckBoxClick(task: Task, isChecked: Boolean)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Task>() {

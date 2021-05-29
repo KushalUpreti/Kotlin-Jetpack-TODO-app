@@ -3,8 +3,10 @@ package com.example.myapplication.data
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.ui.ADD_TASK_RESULT_OK
-import com.example.myapplication.ui.EDIT_TASK_RESULT_OK
+import com.example.myapplication.model.PreferenceDataStore
+import com.example.myapplication.model.TaskDao
+import com.example.myapplication.view.ADD_TASK_RESULT_OK
+import com.example.myapplication.view.EDIT_TASK_RESULT_OK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -23,24 +25,24 @@ class TaskViewModel @Inject constructor(
     val searchQuery = MutableStateFlow("")
     val preferenceFlow = preferenceDataStore.preferenceFlow
 
-    private val taskEventChannel= Channel<TaskEvent>()
+    private val taskEventChannel = Channel<TaskEvent>()
     val taskEvent = taskEventChannel.receiveAsFlow()
 
     @ExperimentalCoroutinesApi
-    private val taskFlow = combine(searchQuery,preferenceFlow)
+    private val taskFlow = combine(searchQuery, preferenceFlow)
     { query, filterPreferences ->
         Pair(query, filterPreferences)
     }.flatMapLatest { (query, filterPreferences) ->
         taskDao.getTasks(query, filterPreferences.sortOrder, filterPreferences.hideCompleted)
     }
 
-    fun updateSortOrder(sortOrder: SortOrder){
+    fun updateSortOrder(sortOrder: SortOrder) {
         viewModelScope.launch {
             preferenceDataStore.updateSortOrder(sortOrder)
         }
     }
 
-    fun updateHideCompleted(hideCompleted:Boolean){
+    fun updateHideCompleted(hideCompleted: Boolean) {
         viewModelScope.launch {
             preferenceDataStore.updateHideCompleted(hideCompleted)
         }
@@ -49,26 +51,26 @@ class TaskViewModel @Inject constructor(
     @ExperimentalCoroutinesApi
     val tasks = taskFlow.asLiveData()
 
-    fun onTaskChecked(task:Task,isChecked:Boolean){
+    fun onTaskChecked(task: Task, isChecked: Boolean) {
         viewModelScope.launch {
-            taskDao.update(task.copy(checked =  isChecked))
+            taskDao.update(task.copy(checked = isChecked))
         }
     }
 
-    fun onTaskSwiped(task: Task){
+    fun onTaskSwiped(task: Task) {
         viewModelScope.launch {
             taskDao.delete(task.copy())
             taskEventChannel.send(TaskEvent.ShowUndoDeleteTaskMessage(task))
         }
     }
 
-    fun onRestoreDeletedTask(task: Task){
+    fun onRestoreDeletedTask(task: Task) {
         viewModelScope.launch {
             taskDao.insert(task)
         }
     }
 
-    fun onAddNewTaskClick()= viewModelScope.launch {
+    fun onAddNewTaskClick() = viewModelScope.launch {
         taskEventChannel.send(TaskEvent.NavigateToAddTaskScreen)
     }
 
@@ -76,31 +78,31 @@ class TaskViewModel @Inject constructor(
         taskEventChannel.send(TaskEvent.NavigateToEditTaskScreen(task))
     }
 
-    fun onAddEdotResult(result:Int){
-        when(result){
-            ADD_TASK_RESULT_OK->showTaskSavedMessage("Task added")
-            EDIT_TASK_RESULT_OK->showTaskSavedMessage("Task updated")
+    fun onAddEdotResult(result: Int) {
+        when (result) {
+            ADD_TASK_RESULT_OK -> showTaskSavedMessage("Task added")
+            EDIT_TASK_RESULT_OK -> showTaskSavedMessage("Task updated")
         }
     }
 
-    private fun showTaskSavedMessage(message:String){
+    private fun showTaskSavedMessage(message: String) {
         viewModelScope.launch {
 
         }
     }
 
-     fun onDeleteAllCompleted(){
+    fun onDeleteAllCompleted() {
         viewModelScope.launch {
             taskEventChannel.send(TaskEvent.NavigateToDeleteAllDialog)
         }
     }
 
-    sealed class TaskEvent{
-        data class ShowUndoDeleteTaskMessage(val task: Task):TaskEvent()
-        object NavigateToAddTaskScreen:TaskEvent()
-        data class NavigateToEditTaskScreen(val task: Task):TaskEvent()
-        data class ShowTaskSavedConfirmationMessage(val msg:String):TaskEvent()
-        object NavigateToDeleteAllDialog:TaskEvent()
+    sealed class TaskEvent {
+        data class ShowUndoDeleteTaskMessage(val task: Task) : TaskEvent()
+        object NavigateToAddTaskScreen : TaskEvent()
+        data class NavigateToEditTaskScreen(val task: Task) : TaskEvent()
+        data class ShowTaskSavedConfirmationMessage(val msg: String) : TaskEvent()
+        object NavigateToDeleteAllDialog : TaskEvent()
     }
 }
 
