@@ -10,10 +10,10 @@ incompasses some fundamental concepts of modern Android development.
 
 Date of project initiation: 2021/5/22
 
-<div style="width:50%">
-  <img src="https://drive.google.com/uc?export=view&id=1KDbJmW6rRX1FrD2lgsi56FWLF-gCsplO" style="width: 10%;  height: 100px"/>
-  
-  <img src="https://drive.google.com/uc?export=view&id=1D7n_5m4A0XB8-McLG-rnq8O-1PKG85cg" style="width: 10%;  height: 100px"/>
-  
-  <img src="https://drive.google.com/uc?export=view&id=1t6Ct1J2DgwQ7OPWCanLsDWmfRF5q2ic3" style="width: 10%;  height: 100px"/>
-<div>
+<a href="https://drive.google.com/uc?export=view&id=1KDbJmW6rRX1FrD2lgsi56FWLF-gCsplO"><img src="https://drive.google.com/uc?export=view&id=1KDbJmW6rRX1FrD2lgsi56FWLF-gCsplO" style="width: 150px; height: auto" title="Click to enlarge picture" /></a>
+
+<a href="https://drive.google.com/uc?export=view&id=1D7n_5m4A0XB8-McLG-rnq8O-1PKG85cg"><img src="https://drive.google.com/uc?export=view&id=1D7n_5m4A0XB8-McLG-rnq8O-1PKG85cg" style="width: 150px;  height: auto" title="Click to enlarge picture" /></a>
+
+<a href="https://drive.google.com/uc?export=view&id=1t6Ct1J2DgwQ7OPWCanLsDWmfRF5q2ic3"><img src="https://drive.google.com/uc?export=view&id=1t6Ct1J2DgwQ7OPWCanLsDWmfRF5q2ic3" style="width: 150px;  height: auto" title="Click to enlarge picture" /></a>
+
+
