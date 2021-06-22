@@ -9,3 +9,11 @@ This is my first app written purely in Kotlin so the app is simple and lightweig
 incompasses some fundamental concepts of modern Android development.
 
 Date of project initiation: 2021/5/22
+
+<div class ="images">
+  <img src="https://drive.google.com/uc?export=view&id=1KDbJmW6rRX1FrD2lgsi56FWLF-gCsplO" style="width: 120px;  height: 200px"/>
+  
+  <img src="https://drive.google.com/uc?export=view&id=1D7n_5m4A0XB8-McLG-rnq8O-1PKG85cg" style="width: 120px;  height: 200px"/>
+  
+  <img src="https://drive.google.com/uc?export=view&id=1t6Ct1J2DgwQ7OPWCanLsDWmfRF5q2ic3" style="width: 120px;  height: 200px"/>
+</div>
